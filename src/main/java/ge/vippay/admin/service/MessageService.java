@@ -3,9 +3,9 @@ package ge.vippay.admin.service;
 import ge.vippay.admin.entity.Message;
 import ge.vippay.admin.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MessageService {
@@ -17,8 +17,8 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public List<Message> getAllMessages() {
-        return messageRepository.findAll();
+    public Page<Message> searchMessage(String query, Pageable pageable) {
+        return messageRepository.searchMessage(query, pageable);
     }
 
     public Message getMessageById(long id) {

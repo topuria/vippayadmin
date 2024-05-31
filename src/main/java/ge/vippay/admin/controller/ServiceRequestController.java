@@ -4,10 +4,11 @@ import ge.vippay.admin.entity.ServiceRequest;
 import ge.vippay.admin.model.ServiceRequestDTO;
 import ge.vippay.admin.service.ServicesRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin/request")
@@ -19,25 +20,28 @@ public class ServiceRequestController {
         this.servicesRequestService = servicesRequestService;
     }
 
-
-    @GetMapping("/all")
-    public ResponseEntity<List<ServiceRequest>> getRequests() {
-        return ResponseEntity.ok(servicesRequestService.findAll());
+    @GetMapping
+    public Page<ServiceRequest> getServiceRequests(
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return servicesRequestService.searchServiceRequest(query, pageable);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ServiceRequest> addRequest(@RequestBody ServiceRequestDTO message) {
         ServiceRequest newRequest = dtoToEntity(message);
         return ResponseEntity.ok(servicesRequestService.save(newRequest));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ServiceRequest> updateRequest(@PathVariable long id, @RequestBody ServiceRequestDTO message) {
         ServiceRequest updatedMessage = dtoToEntity(message);
         return ResponseEntity.ok(servicesRequestService.update(id, updatedMessage));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteRequest(@PathVariable long id) {
         servicesRequestService.delete(id);
         return ResponseEntity.ok("Service Request With Id " + id + " deleted");

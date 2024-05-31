@@ -3,9 +3,9 @@ package ge.vippay.admin.service;
 import ge.vippay.admin.entity.ServiceRequest;
 import ge.vippay.admin.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ServicesRequestService {
@@ -20,7 +20,7 @@ public class ServicesRequestService {
         return serviceRequestRepository.save(serviceRequest);
     }
 
-    public ServiceRequest update(long id,ServiceRequest serviceRequest) {
+    public ServiceRequest update(long id, ServiceRequest serviceRequest) {
         ServiceRequest existing = findById(id);
         existing.setName(serviceRequest.getName());
         existing.setService(serviceRequest.getService());
@@ -28,8 +28,8 @@ public class ServicesRequestService {
         return serviceRequestRepository.save(existing);
     }
 
-    public List<ServiceRequest> findAll() {
-        return serviceRequestRepository.findAll();
+    public Page<ServiceRequest> searchServiceRequest(String query, Pageable pageable) {
+        return serviceRequestRepository.searchServiceRequest(query, pageable);
     }
 
     public ServiceRequest findById(long id) {

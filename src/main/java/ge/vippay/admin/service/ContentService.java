@@ -12,6 +12,8 @@ import ge.vippay.admin.repository.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContentService {
 
@@ -28,9 +30,13 @@ public class ContentService {
         this.objectMapper = objectMapper;
     }
 
+    public List<Content> getAllContents() {
+        return contentRepository.findAll();
+    }
+
     public ContentDTO getContentById(long id) {
         Content content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException("Content not found"));
-        return new ContentDTO(content.getPage().getName(),content.getLanguage().getCode(),objectMapper.convertValue(content.getContent(), String.class));
+        return new ContentDTO(content.getPage().getName(), content.getLanguage().getCode(), objectMapper.convertValue(content.getContent(), String.class));
     }
 
     public void updateContent(long id, ContentDTO contentDTO) throws JsonProcessingException {

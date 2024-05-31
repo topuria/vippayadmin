@@ -11,6 +11,4 @@ public class ContentDTO {
     private String pageName;
     private String languageCode;
     private String contentData;
-
-    // data shevavsos
 }

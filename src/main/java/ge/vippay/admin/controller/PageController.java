@@ -18,7 +18,7 @@ public class PageController {
     }
 
     @GetMapping
-    public List<Page> getAllPages(){
+    public List<Page> getAllPages() {
         return pageService.getAllPages();
     }
 }

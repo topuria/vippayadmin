@@ -10,11 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
+    private final PageRepository pageRepository;
+    private final LanguageRepository languageRepository;
 
     @Autowired
-    private PageRepository pageRepository;
-    @Autowired
-    private LanguageRepository languageRepository;
+    public DatabaseLoader(PageRepository pageRepository, LanguageRepository languageRepository) {
+        this.pageRepository = pageRepository;
+        this.languageRepository = languageRepository;
+    }
 
     @Override
     public void run(String... args) {
