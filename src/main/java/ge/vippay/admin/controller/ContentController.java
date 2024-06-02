@@ -54,8 +54,8 @@ public class ContentController {
         return ResponseEntity.ok().body(contentService.getContentById(id));
     }
 
-    @GetMapping("/all")
-    public List<Content> getAllContent() {
-        return contentService.getAllContents();
+    @GetMapping("/all/page/{name}")
+    public List<Content> getAllContent(@PathVariable String name) {
+        return contentService.getAllContents(name);
     }
 }

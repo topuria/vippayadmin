@@ -32,8 +32,9 @@ public class ContentService {
         this.objectMapper = objectMapper;
     }
 
-    public List<Content> getAllContents() {
-        return contentRepository.findAll();
+    public List<Content> getAllContents(String pageName) {
+        Page page = pageRepository.findByName(pageName).orElseThrow(() -> new RuntimeException("Page not found"));
+        return contentRepository.findContentByPage(page);
     }
 
     public ContentDTO getContentById(long id) {
